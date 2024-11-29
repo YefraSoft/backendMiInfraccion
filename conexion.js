@@ -20,6 +20,10 @@ const db = mysql.createConnection({
   password: "BLjlbvYWmedAzxDYvmtgyAczJjNiYZaz", // Cambia esto según tu configuración
   database: "infraccion", // Nombre de tu base de datos
 });
+// Iniciar el servidor en el puerto 3000
+app.listen(3000, () => {
+  console.log("Servidor escuchando en el puerto 3000");
+});
 
 // Conectar a MySQL
 db.connect((err) => {
@@ -32,7 +36,7 @@ db.connect((err) => {
 // -----------------------------------------------------------
 
 // Ruta para la creación de ciudadanos (con cifrado de contraseñas)
-app.post("/api/users/create", async (req, res) => {
+app.post("/api/users/create", async (req, res) => {z|
   const { nombre, email, password } = req.body;
 
   if (!nombre || !email || !password) {
@@ -91,10 +95,6 @@ app.post("/api/login", (req, res) => {
 
     if (results.length > 0) {
       const usuario = results[0];
-
-      // Comparar la contraseña ingresada con la contraseña cifrada en la base de datos
-      const isMatch = await bcrypt.compare(password, usuario.password);
-
       if (isMatch) {
         return res.status(200).json({ message: "Login exitoso", usuario });
       } else {
@@ -109,7 +109,6 @@ app.post("/api/login", (req, res) => {
     }
   });
 });
-// -----------------------------------------------------------
 
 // Ruta para obtener todos los vehículos
 app.get("/api/vehiculos", (req, res) => {
@@ -347,11 +346,6 @@ app.delete("/api/vehiculos/eliminar/:id", (req, res) => {
   });
 });
 // -----------------------------------------------------------
-
-// Iniciar el servidor en el puerto 3000
-app.listen(3000, () => {
-  console.log("Servidor escuchando en el puerto 3000");
-});
 
 app.put("/api/reportes/:id/estado", (req, res) => {
   const { id } = req.params;
