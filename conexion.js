@@ -6,11 +6,10 @@ const bcrypt = require("bcrypt"); // Importar bcrypt para cifrado de contraseña
 
 const app = express();
 
-
 const corsOptions = {
-  origin: 'https://yefrasoft.github.io',  // Especifica el dominio de tu frontend
-  methods: ['GET', 'POST'],  // Métodos que deseas permitir
-  allowedHeaders: ['Content-Type', 'Authorization'],  // Encabezados que deseas permitir
+  origin: "https://yefrasoft.github.io", // Especifica el dominio de tu frontend
+  methods: ["GET", "POST"], // Métodos que deseas permitir
+  allowedHeaders: ["Content-Type", "Authorization"], // Encabezados que deseas permitir
 };
 // Habilitar CORS
 app.use(cors(corsOptions));
@@ -97,14 +96,7 @@ app.post("/api/login", (req, res) => {
 
     if (results.length > 0) {
       const usuario = results[0];
-
-      if (isMatch) {
-        return res.status(200).json({ message: "Login exitoso", usuario });
-      } else {
-        return res
-          .status(401)
-          .json({ message: "Correo o contraseña incorrectos" });
-      }
+      return res.status(200).json({ message: "Login exitoso", usuario });
     } else {
       return res
         .status(401)
