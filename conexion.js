@@ -10,7 +10,7 @@ const app = express();
 const corsOptions = {
   origin: 'https://yefrasoft.github.io',  // Especifica el dominio de tu frontend
   methods: ['GET', 'POST'],  // Métodos que deseas permitir
-  allowedHeaders: ['Content-Type'],  // Encabezados que deseas permitir
+  allowedHeaders: ['Content-Type', 'Authorization'],  // Encabezados que deseas permitir
 };
 // Habilitar CORS
 app.use(cors(corsOptions));
