@@ -6,8 +6,14 @@ const bcrypt = require("bcrypt"); // Importar bcrypt para cifrado de contraseña
 
 const app = express();
 
+
+const corsOptions = {
+  origin: 'https://yefrasoft.github.io',  // Especifica el dominio de tu frontend
+  methods: ['GET', 'POST'],  // Métodos que deseas permitir
+  allowedHeaders: ['Content-Type'],  // Encabezados que deseas permitir
+};
 // Habilitar CORS
-app.use(cors());
+app.use(cors(corsOptions));
 
 // Configurar el bodyParser para analizar el cuerpo de las solicitudes POST
 app.use(bodyParser.json());
@@ -78,6 +84,8 @@ app.get("/api/vehiculos/:ciudadanoId", (req, res) => {
 // Ruta para el login de ciudadanos (con verificación de contraseñas cifradas)
 app.post("/api/login", (req, res) => {
   const { email, password } = req.body;
+
+  console.log(email, password);
 
   const query = "SELECT * FROM ciudadanos WHERE email = ?";
 
