@@ -42,13 +42,9 @@ app.post("/api/users/create", async (req, res) => {
   }
 
   try {
-    // Cifrar la contraseña antes de almacenarla
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Insertar el nuevo ciudadano en la base de datos
     const query =
       "INSERT INTO ciudadanos (nombre, email, password) VALUES (?, ?, ?)";
-    db.query(query, [nombre, email, hashedPassword], (err, resultado) => {
+    db.query(query, [nombre, email, password], (err, resultado) => {
       if (err) {
         console.error("Error al insertar usuario:", err);
         return res.status(500).json({ mensaje: "Error al crear el usuario" });
