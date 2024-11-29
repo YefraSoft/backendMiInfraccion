@@ -20,10 +20,6 @@ const db = mysql.createConnection({
   password: "BLjlbvYWmedAzxDYvmtgyAczJjNiYZaz", // Cambia esto según tu configuración
   database: "infraccion", // Nombre de tu base de datos
 });
-// Iniciar el servidor en el puerto 3000
-app.listen(3000, () => {
-  console.log("Servidor escuchando en el puerto 3000");
-});
 
 // Conectar a MySQL
 db.connect((err) => {
@@ -36,7 +32,7 @@ db.connect((err) => {
 // -----------------------------------------------------------
 
 // Ruta para la creación de ciudadanos (con cifrado de contraseñas)
-app.post("/api/users/create", async (req, res) => {z|
+app.post("/api/users/create", async (req, res) => {
   const { nombre, email, password } = req.body;
 
   if (!nombre || !email || !password) {
@@ -53,12 +49,10 @@ app.post("/api/users/create", async (req, res) => {z|
         console.error("Error al insertar usuario:", err);
         return res.status(500).json({ mensaje: "Error al crear el usuario" });
       }
-      res
-        .status(201)
-        .json({
-          mensaje: "Usuario creado exitosamente",
-          id: resultado.insertId,
-        });
+      res.status(201).json({
+        mensaje: "Usuario creado exitosamente",
+        id: resultado.insertId,
+      });
     });
   } catch (error) {
     console.error("Error en el registro del usuario:", error);
@@ -95,6 +89,7 @@ app.post("/api/login", (req, res) => {
 
     if (results.length > 0) {
       const usuario = results[0];
+
       if (isMatch) {
         return res.status(200).json({ message: "Login exitoso", usuario });
       } else {
@@ -109,6 +104,7 @@ app.post("/api/login", (req, res) => {
     }
   });
 });
+// -----------------------------------------------------------
 
 // Ruta para obtener todos los vehículos
 app.get("/api/vehiculos", (req, res) => {
@@ -177,12 +173,10 @@ app.post("/api/vehiculos/registrar", (req, res) => {
           .status(500)
           .json({ mensaje: "Error al registrar el vehículo" });
       }
-      res
-        .status(201)
-        .json({
-          mensaje: "Vehículo registrado con éxito",
-          id: resultado.insertId,
-        });
+      res.status(201).json({
+        mensaje: "Vehículo registrado con éxito",
+        id: resultado.insertId,
+      });
     }
   );
 });
@@ -223,12 +217,10 @@ app.delete("/api/infracciones/eliminar/:id", (req, res) => {
   db.query(query, [infraccionId], (err, result) => {
     if (err) {
       console.error("Error al eliminar la infracción:", err);
-      return res
-        .status(500)
-        .json({
-          mensaje: "Error al eliminar la infracción",
-          error: err.message,
-        });
+      return res.status(500).json({
+        mensaje: "Error al eliminar la infracción",
+        error: err.message,
+      });
     }
 
     if (result.affectedRows === 0) {
@@ -308,21 +300,17 @@ app.post("/api/infracciones/registrar", (req, res) => {
   db.query(insertInfraccionQuery, values, (err, resultado) => {
     if (err) {
       console.error("Error al registrar infracción en la base de datos:", err);
-      return res
-        .status(500)
-        .json({
-          mensaje: "Error al registrar la infracción",
-          error: err.message,
-        });
+      return res.status(500).json({
+        mensaje: "Error al registrar la infracción",
+        error: err.message,
+      });
     }
 
     console.log("Infracción registrada con éxito. ID:", resultado.insertId);
-    res
-      .status(201)
-      .json({
-        mensaje: "Infracción registrada con éxito",
-        id: resultado.insertId,
-      });
+    res.status(201).json({
+      mensaje: "Infracción registrada con éxito",
+      id: resultado.insertId,
+    });
   });
 });
 
@@ -346,6 +334,11 @@ app.delete("/api/vehiculos/eliminar/:id", (req, res) => {
   });
 });
 // -----------------------------------------------------------
+
+// Iniciar el servidor en el puerto 3000
+app.listen(3000, () => {
+  console.log("Servidor escuchando en el puerto 3000");
+});
 
 app.put("/api/reportes/:id/estado", (req, res) => {
   const { id } = req.params;
@@ -412,12 +405,10 @@ app.post("/api/reportes", async (req, res) => {
 
   // Validación de los campos requeridos
   if (!descripcion || !numero_exterior || !calle || !codigo_postal) {
-    return res
-      .status(400)
-      .json({
-        mensaje:
-          "Los campos descripción, número exterior, calle y código postal son obligatorios",
-      });
+    return res.status(400).json({
+      mensaje:
+        "Los campos descripción, número exterior, calle y código postal son obligatorios",
+    });
   }
 
   try {
